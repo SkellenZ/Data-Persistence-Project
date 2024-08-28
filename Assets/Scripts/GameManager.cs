@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEngine.UI;
+using TMPro;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -16,18 +18,19 @@ public class GameManager : MonoBehaviour
     {
         public string maxScorePlayerName;
         public int maxScore;
+        public string playerName;
     }
-    public int maxScore;
-    public Text PlayerNameText;
+    public int maxScore=0;
     public string maxScorePlayerName;
     public string playerName;
     public static GameManager Instance;
+
      public void SaveData_toFile()
     {
         SaveData data = new SaveData();
         data.maxScorePlayerName = maxScorePlayerName;
         data.maxScore = maxScore;
-
+        data.playerName = playerName;
         string json = JsonUtility.ToJson(data);
     
         File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
@@ -40,7 +43,9 @@ public class GameManager : MonoBehaviour
             string json = File.ReadAllText(path);
             SaveData data = JsonUtility.FromJson<SaveData>(json);
             maxScore=data.maxScore;
-
+            maxScorePlayerName=data.maxScorePlayerName;
+           
+            playerName = data.playerName;
 
          }
     }

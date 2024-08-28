@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 
 [DefaultExecutionOrder(1000)]
@@ -44,6 +45,7 @@ public class MainManager : MonoBehaviour
 
                 Ball.transform.SetParent(null);
                 Ball.AddForce(forceDir * 2.0f, ForceMode.VelocityChange);
+                playerName=GameManager.Instance.playerName;
             }
         }
         else if (m_GameOver)
@@ -53,14 +55,15 @@ public class MainManager : MonoBehaviour
                 m_GameOver=false;
                 m_Started = false;
                // StartGeme();
-               SceneManager.LoadScene(0);
+               Debug.Log(m_Points);
+                Debug.Log(playerName);
+              Debug.Log(GameManager.Instance.maxScore);
                if (GameManager.Instance.maxScore<m_Points)
                 {
-                    BestScoreText.text=$"BestScore: {playerName} : {m_Points}";
                     GameManager.Instance.maxScore=m_Points;
                     GameManager.Instance.maxScorePlayerName=playerName;
                 }
-              
+               SceneManager.LoadScene(0);
             }
         }
         else if (m_GameOver)
@@ -93,6 +96,7 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+        BestScoreText.text=$"BestScore: {GameManager.Instance.maxScorePlayerName} : {GameManager.Instance.maxScore}";
     }
     public void GameOver()
     {
